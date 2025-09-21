@@ -5,30 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Perps Dashboard — Binance & OKX</title>
   <style>
-    :root{ --bg:#0b0f14; --card:#121821; --muted:#6b7a90; --text:#e8eef6; --accent:#4cc9f0; --pos:#22c55e; --neg:#ef4444; }
+    :root{ --bg:#14110f; --card:#1d1714; --muted:#b39c8c; --text:#f5ede5; --accent:#ff8a3d; --pos:#22c55e; --neg:#ef4444; }
     *{box-sizing:border-box}
     body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Inter,Arial;background:var(--bg);color:var(--text)}
-    header{position:sticky;top:0;z-index:5;background:linear-gradient(180deg, rgba(11,15,20,0.95), rgba(11,15,20,0.85) 60%, rgba(11,15,20,0));backdrop-filter:saturate(1.2) blur(6px);}  
+    header{position:sticky;top:0;z-index:5;background:linear-gradient(180deg, rgba(20,17,15,0.95), rgba(20,17,15,0.85) 60%, rgba(20,17,15,0));backdrop-filter:saturate(1.2) blur(6px);}  
     .wrap{max-width:1200px;margin:0 auto;padding:16px}
     h1{font-size:20px;margin:0 0 8px;display:flex;align-items:center;gap:10px}
-    h1 span.badge{font-size:12px;background:var(--card);color:var(--muted);border:1px solid #1f2a38;padding:2px 8px;border-radius:999px}
+    h1 span.badge{font-size:12px;background:var(--card);color:var(--muted);border:1px solid #2f2118;padding:2px 8px;border-radius:999px}
     .tabs{display:flex;gap:8px;margin:8px 0}
-    .tab{padding:8px 16px;border-radius:8px;cursor:pointer;background:#203045;color:var(--text);user-select:none}
-    .tab.active{background:var(--accent);color:#04131b;font-weight:600}
+    .tab{padding:8px 16px;border-radius:8px;cursor:pointer;background:#36241a;color:var(--text);user-select:none}
+    .tab.active{background:var(--accent);color:#2b1405;font-weight:600}
     .controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
-    input[type="search"]{flex:1 1 220px;background:#0e141c;color:var(--text);border:1px solid #203045;border-radius:10px;padding:10px 12px;outline:none}
-    button{background:var(--accent);color:#04131b;border:0;border-radius:10px;padding:10px 12px;font-weight:600;cursor:pointer}
-    button.secondary{background:#203045;color:var(--text)}
+    input[type="search"]{flex:1 1 220px;background:#1b120f;color:var(--text);border:1px solid #36241a;border-radius:10px;padding:10px 12px;outline:none}
+    button{background:var(--accent);color:#2b1405;border:0;border-radius:10px;padding:10px 12px;font-weight:600;cursor:pointer}
+    button.secondary{background:#36241a;color:var(--text)}
     .hint{font-size:12px;color:var(--muted)}
-    .card{background:var(--card);border:1px solid #1f2a38;border-radius:16px;overflow:hidden;margin-top:16px}
+    .card{background:var(--card);border:1px solid #2f2118;border-radius:16px;overflow:hidden;margin-top:16px}
     table{width:100%;border-collapse:separate;border-spacing:0}
-    thead th{position:sticky;top:0;background:#0f1620;border-bottom:1px solid #1f2a38;padding:12px;font-size:12px;text-align:left;color:#a9b6c8;letter-spacing:.02em;cursor:pointer}
-    tbody td{border-bottom:1px solid #17202d;padding:12px;font-size:14px}
-    tbody tr:hover{background:#0f1620}
+    thead th{position:sticky;top:0;background:#1a120d;border-bottom:1px solid #2f2118;padding:12px;font-size:12px;text-align:left;color:#d8c5b7;letter-spacing:.02em;cursor:pointer}
+    tbody td{border-bottom:1px solid #261a13;padding:12px;font-size:14px}
+    tbody tr:hover{background:#1f140f}
     .mono{font-variant-numeric:tabular-nums}
     .pos{color:var(--pos)}
     .neg{color:var(--neg)}
-    .skeleton{display:inline-block;min-width:48px;height:1em;background:linear-gradient(90deg,#1a2331,#263449,#1a2331);border-radius:4px;animation:shimmer 1.4s infinite}
+    .skeleton{display:inline-block;min-width:48px;height:1em;background:linear-gradient(90deg,#2a1c14,#3b271c,#2a1c14);border-radius:4px;animation:shimmer 1.4s infinite}
     @keyframes shimmer{0%{background-position:-100px 0}100%{background-position:100px 0}}
     .footer{color:var(--muted);font-size:12px;padding:12px 16px}
   </style>
