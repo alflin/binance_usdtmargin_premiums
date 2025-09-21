@@ -239,13 +239,16 @@
     };
 
     const EXCHANGES = { binance: BINANCE, okx: OKX };
+    const AUTO_REFRESH_MS = 5 * 60 * 1000;
 
     // ============ State ============
     let currentExchangeKey = 'binance';
     let currentRows = [];
-    let sortKey = 'quoteVolume';
+    let sortKey = 'dailyPct';
     let sortDir = 'desc';
     let showTopOnly = true; // toggle button
+    let isRefreshing = false;
+    let refreshToken = 0;
 
     // ============ DOM refs ============
     const tbody = document.getElementById('tbody');
@@ -276,11 +279,17 @@
       if(q) list = list.filter(r=>r.symbol.includes(q));
       if(showTopOnly) list = list.slice(0,50);
       list = list.slice().sort((a,b)=>{
-        const dir = sortDir==='asc'?1:-1;
-        if(sortKey==='symbol') return a.symbol.localeCompare(b.symbol)*dir;
+        if(sortKey==='symbol'){
+          return sortDir==='asc'
+            ? a.symbol.localeCompare(b.symbol)
+            : b.symbol.localeCompare(a.symbol);
+        }
         const av=a[sortKey], bv=b[sortKey];
-        const aa=(av==null||!Number.isFinite(av))?-Infinity:av; const bb=(bv==null||!Number.isFinite(bv))?-Infinity:bv;
-        if(aa<bb) return 1*dir; if(aa>bb) return -1*dir; return a.symbol.localeCompare(b.symbol);
+        const aa=(av==null||!Number.isFinite(av))?-Infinity:av;
+        const bb=(bv==null||!Number.isFinite(bv))?-Infinity:bv;
+        if(aa<bb) return sortDir==='asc' ? -1 : 1;
+        if(aa>bb) return sortDir==='asc' ? 1 : -1;
+        return a.symbol.localeCompare(b.symbol);
       });
       return list;
     }
@@ -321,6 +330,9 @@
 
     // ============ Exchange switching & init ============
     async function switchExchange(key){
+      if(isRefreshing && key===currentExchangeKey) return;
+      const token = ++refreshToken;
+      isRefreshing = true;
       currentExchangeKey = key;
       exchangeNameEl.textContent = EXCHANGES[key].name;
       document.getElementById('lastUpdated').textContent = 'Refreshing…';
@@ -338,10 +350,15 @@
         console.error(err);
         document.getElementById('lastUpdated').textContent = 'Error loading data';
         tbody.innerHTML = `<tr><td colspan="10" style="color:var(--muted);padding:16px;">Failed to load from ${EXCHANGES[key].name} API. Try again.</td></tr>`;
+      }finally{
+        if(refreshToken === token) isRefreshing = false;
       }
     }
 
-    function init(){ switchExchange('binance'); }
+    function init(){
+      switchExchange('binance');
+      setInterval(()=> switchExchange(currentExchangeKey), AUTO_REFRESH_MS);
+    }
     init();
   </script>
 </body>
